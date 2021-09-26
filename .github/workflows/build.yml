@@ -21,9 +21,9 @@ jobs:
           find: "{VERSION}"
           include: LuaDatabase.toc
           replace: "${{ env.RELEASE_VERSION }}"
-      - run: mkdir LibEventSourcing
-      - run: mv `ls | grep -v '^LibEventSourcing$'` LibEventSourcing
-      - run: zip -r LibEventSourcing.zip LibEventSourcing -x '*.git*'
+      - run: mkdir LibEventDispatcher
+      - run: mv `ls | grep -v '^LibEventDispatcher$'` LibEventDispatcher
+      - run: zip -r LibEventDispatcher.zip LibEventDispatcher -x '*.git*'
       - name: Create GitHub release
         uses: Roang-zero1/github-create-release-action@master
         with:
@@ -34,17 +34,17 @@ jobs:
       - name: Upload artifact to github
         uses: fnkr/github-action-ghr@v1
         env:
-          GHR_PATH: LibEventSourcing.zip
+          GHR_PATH: LibEventDispatcher.zip
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload to curseforge
-        uses: itsmeow/curseforge-upload@master
-        with:
-          token: ${{ secrets.CURSEFORGE_TOKEN }}
-          project_id: 457141
-          game_endpoint: wow
-          file_path: LibEventSourcing.zip
-          changelog: See github for changes
-          display_name: LibEventSourcing
-          game_versions: 1-13-6
-          release_type: alpha
+      # - name: Upload to curseforge
+      #   uses: itsmeow/curseforge-upload@master
+      #   with:
+      #     token: ${{ secrets.CURSEFORGE_TOKEN }}
+      #     project_id: 457141
+      #     game_endpoint: wow
+      #     file_path: LibEventDispatcher.zip
+      #     changelog: See github for changes
+      #     display_name: LibEventDispatcher
+      #     game_versions: 1-13-6
+      #     release_type: alpha
           #relations:

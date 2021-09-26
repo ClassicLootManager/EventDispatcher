@@ -27,8 +27,8 @@ local listeners = {}
 local EventDispatcherMeta = {
     __metatable = false,
     __index = {
-        addEventListener = function(eventName, callback, prepend) 
-            if listeners[eventName] == nil then 
+        addEventListener = function(eventName, callback, prepend)
+            if listeners[eventName] == nil then
                 -- we store min and max to allow for prepending
                 listeners[eventName] = {
                     min = 1,
@@ -43,18 +43,15 @@ local EventDispatcherMeta = {
                 listeners[eventName].max = listeners[eventName].max + 1
             end
 
-            
         end,
-        removeEventListener = function(eventName, callback) 
+        removeEventListener = function(eventName, callback)
             error("not yet supported, instead just ignore the event in your code")
 
         end,
         dispatchEvent = function(name, data)
             local eventListeners = listeners[name]
             -- todo:
-            -- wrap in pcalls, so errors in handlers are logged but don't break the dispatcher
             -- profiling
-            
             for i = eventListeners.min, eventListeners.max - 1 do
                 if eventListeners[i] and not pcall(eventListeners[i], name, data) then
                     print("Event handler resulted in error")
@@ -62,7 +59,7 @@ local EventDispatcherMeta = {
             end
         end
     },
-    __newindex = function(table, key, value) 
+    __newindex = function(table, key, value)
         error(string.format("Cannot write read-only or unknown property '%s'", key))
     end
 }
@@ -76,7 +73,7 @@ setmetatable(EventDispatcher, EventDispatcherMeta)
     EventDispatcher.addEventListener(eventName, callbackFunc, prepend)
       eventName: string,
       callbackFunc: function(event: Event),
-      prepend: bool(default: false) -- whether to prepend or append the listener
-      
+      prepend: bool(default:false) -- whether to prepend or append the listener
+
     EventDispatcher.dispatchEvent('eventName', data)
 ]]

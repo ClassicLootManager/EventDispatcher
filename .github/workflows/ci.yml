@@ -13,7 +13,7 @@ jobs:
           files: source
   release:
     name: Automated release
-    needs: [test, lint]
+    needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
