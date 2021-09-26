@@ -64,16 +64,3 @@ local EventDispatcherMeta = {
     end
 }
 setmetatable(EventDispatcher, EventDispatcherMeta)
-
-
-
-
--- API:
---[[
-    EventDispatcher.addEventListener(eventName, callbackFunc, prepend)
-      eventName: string,
-      callbackFunc: function(event: Event),
-      prepend: bool(default:false) -- whether to prepend or append the listener
-
-    EventDispatcher.dispatchEvent('eventName', data)
-]]
