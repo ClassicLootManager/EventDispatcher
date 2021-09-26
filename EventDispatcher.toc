@@ -1,0 +1,6 @@
+## Interface: 11306
+## Title: EventDispatcher
+## Author: Sam Mousa
+## Version: {VERSION}
+## Notes: Lirary for dispatching events
+EventDispatcher.xml
