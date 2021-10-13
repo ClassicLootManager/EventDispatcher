@@ -24,6 +24,20 @@ end
 local EventDispatcher, _ = LibStub:NewLibrary("EventDispatcher", 1)
 local listeners = {}
 
+local function dispatch(name, data)
+    local eventListeners = listeners[name]
+    -- todo:
+    -- profiling
+    for i = eventListeners.min, eventListeners.max - 1 do
+        if eventListeners[i] and not pcall(eventListeners[i], name, data) then
+            print("Event handler resulted in error")
+        end
+    end
+end
+
+local DEFAULT_TTL = 5
+
+
 local EventDispatcherMeta = {
     __metatable = false,
     __index = {
@@ -48,16 +62,14 @@ local EventDispatcherMeta = {
             error("not yet supported, instead just ignore the event in your code")
 
         end,
-        dispatchEvent = function(name, data)
-            local eventListeners = listeners[name]
-            -- todo:
-            -- profiling
-            for i = eventListeners.min, eventListeners.max - 1 do
-                if eventListeners[i] and not pcall(eventListeners[i], name, data) then
-                    print("Event handler resulted in error")
-                end
+        dispatchEvent = dispatch,
+        dispatchEventWithTTL = function(name, data, timestamp, ttl)
+            if timestamp ~= nil and timestamp + (ttl or DEFAULT_TTL) < GetServerTime() then
+                return
             end
+            dispatch(name, data)
         end
+
     },
     __newindex = function(table, key, value)
         error(string.format("Cannot write read-only or unknown property '%s'", key))
