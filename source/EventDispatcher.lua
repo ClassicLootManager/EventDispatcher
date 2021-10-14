@@ -26,6 +26,9 @@ local listeners = {}
 
 local function dispatch(name, data)
     local eventListeners = listeners[name]
+    if eventListeners == nil then
+        return
+    end
     -- todo:
     -- profiling
     for i = eventListeners.min, eventListeners.max - 1 do
