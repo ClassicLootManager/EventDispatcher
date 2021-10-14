@@ -22,6 +22,9 @@ if LibStub == nil then
 end
 
 local EventDispatcher, _ = LibStub:NewLibrary("EventDispatcher", 1)
+
+if EventDispatcher == nil then return end
+
 local listeners = {}
 
 local function dispatch(name, data)
